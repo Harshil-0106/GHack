@@ -170,7 +170,9 @@ function ProgressSection() {
             </div>
           </div>
           <ol className={styles.progressMilestones}>
-            {progressMilestones.map((milestone) => (
+            {progressMilestones
+              .filter(m => m.status === "complete" || m.status === "current")
+              .map((milestone) => (
               <li className={styles.progressMilestone} data-state={milestone.status} key={milestone.label}>
                 <span className={styles.progressMilestoneNode} aria-hidden="true">{milestone.marker}</span>
                 <span>{milestone.label}</span>
