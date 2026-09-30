@@ -15,7 +15,7 @@ type Exercise = {
 };
 
 const stats: Stat[] = [
-  { label: "XP", value: "2,450 XP", note: "550 XP to level 8" },
+  { label: "TOKENS", value: "2,450 Tokens", note: "550 Tokens to level 8" },
   { label: "STREAK", value: "🔥 12 Days", note: "Your best is 14" },
 ];
 
@@ -23,7 +23,7 @@ const progressMetrics = [
   { label: "MISSIONS COMPLETED", value: "18" },
   { label: "EXERCISES COMPLETED", value: "54" },
   { label: "CURRENT STREAK", value: "12 days" },
-  { label: "XP EARNED", value: "2,450 XP" },
+  { label: "TOKENS EARNED", value: "2,450 Tokens" },
 ];
 
 const progressMilestones = [
@@ -49,9 +49,8 @@ const milestones = [
 ] as const;
 
 const exercises: Exercise[] = [
-  { name: "Arm Raises", status: "Completed", reward: "+40 XP", movement: "raise" },
-  { name: "Shoulder Rotation", status: "In Progress", reward: "+40 XP", movement: "rotate" },
-  { name: "Stretch Hold", status: "Locked", reward: "+40 XP", movement: "stretch" },
+  { name: "Bicep Curls", status: "Completed", reward: "+40 Tokens", movement: "raise" },
+  { name: "Shoulder Presses", status: "In Progress", reward: "+40 Tokens", movement: "rotate" },
 ];
 
 function Brand() {
@@ -359,7 +358,7 @@ export default function PatientDashboard() {
             <ul className={styles.missionMeta} aria-label="Mission rewards and duration">
               <li><span aria-hidden="true">◌</span> 3 Exercises</li>
               <li><span aria-hidden="true">◷</span> 15 min</li>
-              <li><span aria-hidden="true">✦</span> +120 XP</li>
+              <li><span aria-hidden="true">✦</span> +120 Tokens</li>
               <li><span aria-hidden="true">⬡</span> +30 RC</li>
             </ul>
             <Link className={styles.missionButton} href="/patient/dashboard/mission">

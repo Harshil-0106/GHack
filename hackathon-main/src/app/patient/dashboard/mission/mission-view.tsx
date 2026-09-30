@@ -4,11 +4,10 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import styles from "./mission.module.css";
 
-const missionExercises = ["Arm Raises", "Shoulder Rotation", "Stretch Hold"];
+const missionExercises = ["Bicep Curls", "Shoulder Presses"];
 const exerciseInstructions = [
-  "Follow the exercise and keep your movement steady.",
-  "Rotate your shoulder gently through a comfortable range.",
-  "Hold a gentle stretch without forcing the movement.",
+  "Curl your arms smoothly while keeping elbows fixed.",
+  "Press upwards smoothly and control the descent.",
 ];
 const confettiColors = ["#e8c76f", "#79a98a", "#dd8b68", "#c7dfca", "#4f8769", "#f1dda0"];
 const confettiShapes = ["rectangle", "circle", "diamond", "ribbon"] as const;
@@ -102,18 +101,18 @@ export default function MissionView() {
                 window.Viora.say("Make sure to go all the way!");
               }
               // If reps reach a milestone like 5, proceed automatically
-              if (data.reps >= 5 && data.reps % 5 === 0) {
-                // The backend just keeps counting, so we increment session step
+              if (data.reps > 0 && data.reps % 5 === 0) {
+                // Determine next exercise and proceed without zeroing the counter
                 setCompletedCount((count) => {
                   const next = count + 1;
-                  if (next === missionExercises.length) {
+                  if (next >= missionExercises.length) {
                     setShowCelebration(true);
                     ws.close();
+                  } else {
+                    if (window.Viora) window.Viora.say(`Great job! Moving to the next exercise: ${missionExercises[next]}.`);
                   }
                   return next;
                 });
-                if (window.Viora) window.Viora.say("Great job! Moving to the next exercise.");
-                setRepCount(0); // Reset UI rep count for next exercise
               }
             }
           } catch (e) {
@@ -211,7 +210,7 @@ export default function MissionView() {
               <div className={styles.rewardRow} aria-label="Mission rewards">
                 <div className={styles.rewardTile}>
                   <span aria-hidden="true">✦</span>
-                  <strong>+120 XP</strong>
+                  <strong>+120 Tokens</strong>
                 </div>
                 <div className={styles.rewardTile}>
                   <span aria-hidden="true">⬡</span>
@@ -239,7 +238,7 @@ export default function MissionView() {
               <ul className={styles.metadata} aria-label="Mission details">
                 <li><span aria-hidden="true">◌</span> 3 Exercises</li>
                 <li><span aria-hidden="true">◷</span> 15 min</li>
-                <li><span aria-hidden="true">✦</span> +120 XP</li>
+                <li><span aria-hidden="true">✦</span> +120 Tokens</li>
                 <li><span aria-hidden="true">⬡</span> +30 RC</li>
               </ul>
             </div>
@@ -267,14 +266,14 @@ export default function MissionView() {
                   ref={imageRef}
                   className={`${styles.cameraVideo} ${cameraStatus === "ready" ? styles.cameraVideoActive : ""}`}
                   alt="Live camera feed"
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", transform: "scaleX(-1)" }}
                 />
 
                 {/* Overlaid Rep Counter */}
                 {cameraStatus === "ready" && (
                   <div style={{ position: "absolute", top: 20, right: 20, background: "rgba(0, 0, 0, 0.6)", padding: "10px 20px", borderRadius: 10, color: "#fff", zIndex: 10 }}>
                     <div style={{ fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: 1, opacity: 0.8 }}>Reps</div>
-                    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>{repCount} <span style={{ fontSize: "1rem", opacity: 0.8 }}>/ 5</span></div>
+                    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>{repCount}</div>
                   </div>
                 )}
 
@@ -333,7 +332,7 @@ export default function MissionView() {
                 </div>
                 <div>
                   <span>REWARD</span>
-                  <strong>+40 XP</strong>
+                  <strong>+40 Tokens</strong>
                 </div>
               </div>
               <ol className={styles.guideExerciseList} aria-label="Exercise sequence">
