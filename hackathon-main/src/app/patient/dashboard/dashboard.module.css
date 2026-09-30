@@ -1,0 +1,1594 @@
+.dashboard {
+  --dash-ink: #183b36;
+  --dash-muted: #6d7e79;
+  --dash-line: #e1e9e2;
+  --dash-paper: #fbfcf9;
+  --dash-green: #176b59;
+  --dash-deep: #194f43;
+  --dash-mint: #e9f3ed;
+  --dash-gold: #efd17a;
+  min-height: 100svh;
+  overflow-x: clip;
+  background: #f3f7f2;
+  color: var(--dash-ink);
+}
+
+.dashboard * {
+  box-sizing: border-box;
+}
+
+.topbar {
+  border-bottom: 1px solid #e4eae3;
+  background: rgb(251 252 249 / 94%);
+}
+
+.topbarInner {
+  display: grid;
+  width: min(100%, 1376px);
+  min-height: 72px;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.brand {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  color: var(--dash-deep);
+  text-decoration: none;
+}
+
+.brandMark {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3px;
+  transform: rotate(-8deg);
+}
+
+.brandMark span {
+  border-radius: 4px 1px 4px 1px;
+  background: #77a989;
+}
+
+.brandMark span:nth-child(2) {
+  opacity: 0.7;
+}
+
+.brandMark span:nth-child(3) {
+  opacity: 0.82;
+}
+
+.brandMark span:nth-child(4) {
+  background: #dd8b68;
+}
+
+.brandName {
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.brandName span {
+  color: var(--dash-green);
+  font-weight: 450;
+}
+
+.primaryNav {
+  display: flex;
+  height: 72px;
+  align-items: stretch;
+  gap: 30px;
+}
+
+.navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: #65756c;
+  font-size: 13px;
+  font-weight: 550;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.navLink:hover,
+.navLink:focus-visible {
+  color: var(--dash-green);
+}
+
+.navLink:first-child {
+  color: var(--dash-green);
+}
+
+.navLink:first-child::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #dd8b68;
+  content: "";
+}
+
+.logoutLink {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-self: end;
+  gap: 8px;
+  padding: 0 13px;
+  border: 1px solid #dfe8df;
+  border-radius: 5px;
+  color: #53685c;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
+}
+
+.logoutLink:hover,
+.logoutLink:focus-visible {
+  border-color: #a8cbb1;
+  background: #f0f6f0;
+  color: var(--dash-green);
+}
+
+.main {
+  width: min(100%, 1376px);
+  margin: 0 auto;
+  padding: 26px 32px 18px;
+}
+
+.welcome {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.welcomeEyebrow,
+.sectionEyebrow {
+  margin: 0 0 8px;
+  color: #78897e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+}
+
+.welcome h1 {
+  margin: 0;
+  font-size: 27px;
+  font-weight: 550;
+  line-height: 1.24;
+}
+
+.welcome h1 span {
+  font-size: 23px;
+}
+
+.welcome h2 {
+  margin: 8px 0 3px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.welcomeText {
+  margin: 0;
+  color: var(--dash-muted);
+  font-size: 13px;
+}
+
+.welcomeBadge {
+  display: flex;
+  min-width: 248px;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 16px;
+  border: 1px solid #dbe8dc;
+  border-radius: 7px;
+  background: #edf5ed;
+}
+
+.badgeIcon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border: 1px solid #d2e2cd;
+  border-radius: 50%;
+  background: #f9e8ae;
+  color: #8c6b26;
+  font-size: 19px;
+}
+
+.welcomeBadge div {
+  display: grid;
+  gap: 2px;
+}
+
+.badgeLabel {
+  color: #6e8475;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.welcomeBadge strong {
+  color: #254e3f;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.badgeMeta {
+  color: #75877b;
+  font-size: 11px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.statCard {
+  display: flex;
+  min-width: 0;
+  min-height: 112px;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px 16px;
+  border: 1px solid var(--dash-line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.statCopy {
+  min-width: 0;
+}
+
+.statLabel {
+  overflow: hidden;
+  margin: 0 0 6px;
+  color: #819087;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.statValue {
+  margin: 0;
+  color: #21483a;
+  font-size: 19px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.statNote {
+  overflow: hidden;
+  margin: 4px 0 0;
+  color: #829087;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progressSection {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+  scroll-margin-top: 18px;
+}
+
+.progressSectionHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.progressSectionHeading h2 {
+  margin: 0;
+  color: #23483a;
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.progressSection .sectionEyebrow {
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.overallProgress {
+  display: grid;
+  min-height: 78px;
+  grid-template-columns: 175px minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+  padding: 14px 18px;
+  border: 1px solid var(--dash-line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.overallProgressValue {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.overallProgressValue span {
+  color: #7c8b80;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+}
+
+.overallProgressValue strong {
+  color: #285b45;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.overallProgressTrack {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #edf2ec;
+}
+
+.overallProgressFill {
+  width: 72%;
+  height: 100%;
+  border-radius: inherit;
+  background: #77a989;
+}
+
+.progressMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.progressMetric {
+  display: grid;
+  min-width: 0;
+  min-height: 82px;
+  align-content: center;
+  gap: 5px;
+  padding: 12px 14px;
+  border: 1px solid var(--dash-line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.progressMetric p {
+  margin: 0;
+  color: #7f8e83;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.progressMetric strong {
+  color: #28503d;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.progressDetails {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 12px;
+}
+
+.progressDetails .panel {
+  padding: 22px;
+}
+
+.progressDetails .sectionHeading h3 {
+  margin: 0;
+  color: #23483a;
+  font-size: 20px;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.progressMilestones {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progressMilestone {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 96px;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #8a978d;
+  font-size: 13px;
+  text-align: center;
+}
+
+.progressMilestone:not(:last-child)::after {
+  position: absolute;
+  top: 13px;
+  left: calc(50% + 13px);
+  width: calc(100% - 26px);
+  height: 2px;
+  background: #e4ebe3;
+  content: "";
+}
+
+.progressMilestone[data-state="complete"]:not(:last-child)::after {
+  background: #78a889;
+}
+
+.progressMilestoneNode {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  place-items: center;
+  border: 1px solid #dfe7dd;
+  border-radius: 50%;
+  background: #f5f8f3;
+  color: #95a297;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.progressMilestone[data-state="complete"] .progressMilestoneNode {
+  border-color: #6a9b7b;
+  background: #6a9b7b;
+  color: #fff;
+}
+
+.progressMilestone[data-state="current"] {
+  color: #285b45;
+  font-weight: 700;
+}
+
+.progressMilestone[data-state="current"] .progressMilestoneNode {
+  border-color: #d9e9d9;
+  background: #285b45;
+  box-shadow: 0 0 0 2px #83ad8c;
+  color: #fff;
+}
+
+.progressMilestone[data-state="locked"] .progressMilestoneNode {
+  font-size: 10px;
+}
+
+.progressMilestone > span:last-child {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.progressActivity {
+  display: grid;
+  gap: 0;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progressActivity li {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 0;
+  border-top: 1px solid #edf0eb;
+  color: #5f7165;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.progressActivity li span {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: #edf5ee;
+  color: #4b7b57;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.featureGrid,
+.lowerGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.32fr) minmax(0, 0.88fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.missionCard {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 286px;
+  align-items: center;
+  overflow: hidden;
+  padding: 24px 26px;
+  border-radius: 8px;
+  background: linear-gradient(108deg, #194f43 0%, #205b4a 61%, #2c6b53 100%);
+  color: #fffdf2;
+}
+
+.missionLandscape {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 47%;
+  height: 100%;
+  opacity: 0.88;
+  pointer-events: none;
+}
+
+.missionContent {
+  position: relative;
+  z-index: 1;
+  width: 73%;
+}
+
+.missionTopline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.missionEyebrow {
+  color: #c5e3ce;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+}
+
+.missionDay {
+  flex: 0 0 auto;
+  padding: 6px 8px;
+  border: 1px solid rgb(255 255 255 / 23%);
+  border-radius: 4px;
+  color: #e3eddb;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+}
+
+.missionDay span {
+  padding-inline: 3px;
+  color: #f2d479;
+}
+
+.missionCard h2 {
+  max-width: 460px;
+  margin: 0;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.missionDescription {
+  max-width: 400px;
+  margin: 9px 0 13px;
+  color: rgb(250 255 246 / 78%);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.missionMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0 0 17px;
+  padding: 0;
+  color: #eff3df;
+  font-size: 10px;
+  list-style: none;
+}
+
+.missionMeta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.missionMeta li span {
+  color: #efd17a;
+  font-size: 13px;
+}
+
+.missionButton {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 16px;
+  border: 1px solid #f3dc98;
+  border-radius: 5px;
+  background: #f3d982;
+  color: #285541;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.missionButton:hover,
+.missionButton:focus-visible {
+  transform: translateY(-1px);
+  background: #ffe7a0;
+}
+
+.missionButton span {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.panel {
+  min-width: 0;
+  padding: 21px 22px;
+  border: 1px solid var(--dash-line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.sectionHeading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sectionEyebrow {
+  margin-bottom: 5px;
+  font-size: 9px;
+}
+
+.sectionHeading h2,
+.carePanel h2 {
+  margin: 0;
+  color: #23483a;
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.chapterLabel,
+.exerciseCount {
+  flex: 0 0 auto;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: #eff5ee;
+  color: #5c7965;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.journeySummary {
+  max-width: 320px;
+  margin: 9px 0 0;
+  color: #718078;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.milestoneList {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 24px 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.milestone {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.milestone:not(:last-child)::after {
+  position: absolute;
+  z-index: 0;
+  top: 13px;
+  left: calc(50% + 13px);
+  width: calc(100% - 26px);
+  height: 2px;
+  background: #e5ebe4;
+  content: "";
+}
+
+.milestone[data-state="complete"]:not(:last-child)::after {
+  background: #77a989;
+}
+
+.milestoneNode {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 1px solid #dce5dc;
+  border-radius: 50%;
+  background: #f5f8f3;
+  color: #99a69b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.milestone[data-state="complete"] .milestoneNode {
+  border-color: #6a9b7b;
+  background: #6a9b7b;
+  color: #fff;
+}
+
+.milestone[data-state="current"] .milestoneNode {
+  width: 34px;
+  height: 34px;
+  margin: -4px 0;
+  border: 4px solid #e0efdf;
+  background: #235c48;
+  box-shadow: 0 0 0 2px #76a789;
+  color: #fff;
+  font-size: 10px;
+}
+
+.milestoneDay {
+  margin-top: 8px;
+  color: #66776b;
+  font-size: 9px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.milestoneLabel {
+  margin-top: 3px;
+  color: #9aa69a;
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.milestone[data-state="current"] .milestoneDay,
+.milestone[data-state="current"] .milestoneLabel {
+  color: #245d48;
+  font-weight: 700;
+}
+
+.journeyFooter {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-top: 11px;
+  border-top: 1px solid #edf0eb;
+  color: #77867b;
+  font-size: 10px;
+}
+
+.journeyFooter strong {
+  margin-left: auto;
+  color: #496e55;
+  font-weight: 650;
+}
+
+.journeyFooterDot,
+.carePulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d99a4f;
+}
+
+.journeyAvatarGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.75fr);
+  align-items: stretch;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.avatarCard {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 21px 22px 18px;
+  background: linear-gradient(160deg, #fff 0%, #fbfdf8 100%);
+}
+
+.avatarHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.avatarHeading h2 {
+  margin: 0;
+  color: #23483a;
+  font-size: 17px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.avatarLevel {
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: #eff5ee;
+  color: #5c7965;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.avatarIllustration {
+  display: block;
+  width: min(100%, 164px);
+  height: auto;
+  align-self: center;
+  margin: 8px auto 2px;
+}
+
+.avatarStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 11px 0 13px;
+  border-top: 1px solid #edf0eb;
+}
+
+.avatarStats div {
+  display: grid;
+  gap: 4px;
+}
+
+.avatarStats div + div {
+  padding-left: 13px;
+  border-left: 1px solid #edf0eb;
+}
+
+.avatarStats span {
+  color: #829087;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.avatarStats strong {
+  color: #23483a;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.customizeButton {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #d8e5d8;
+  border-radius: 5px;
+  background: #eef5ec;
+  color: #426c50;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+}
+
+.customizeButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.82;
+}
+
+.lowerGrid {
+  grid-template-columns: minmax(0, 1.32fr) minmax(0, 0.88fr);
+}
+
+.exerciseCount {
+  background: #f5f7f3;
+  color: #839087;
+}
+
+.exerciseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.exerciseCard {
+  display: grid;
+  min-width: 0;
+  min-height: 102px;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px;
+  border: 1px solid #e8ede6;
+  border-radius: 6px;
+  background: #fcfdfa;
+}
+
+.movementIcon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 6px;
+  background: #edf5ed;
+  color: #558769;
+}
+
+.movementIcon svg {
+  width: 29px;
+  height: 29px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.2;
+}
+
+.movementIcon.statusProgress {
+  background: #fff3d8;
+  color: #af8238;
+}
+
+.movementIcon.statusLocked {
+  background: #f1f3f0;
+  color: #a6afa6;
+}
+
+.exerciseCopy {
+  min-width: 0;
+}
+
+.exerciseIndex {
+  overflow: hidden;
+  margin: 0 0 4px;
+  color: #96a198;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exerciseCopy h3 {
+  overflow: hidden;
+  margin: 0 0 6px;
+  color: #2b4f3d;
+  font-size: 11px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exerciseStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #63806a;
+  font-size: 9px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.statusProgress {
+  color: #a67a32;
+}
+
+.statusLocked {
+  color: #929b92;
+}
+
+.exerciseReward {
+  display: none;
+}
+
+.carePanel {
+  position: relative;
+  overflow: hidden;
+  padding: 21px 22px 17px;
+  background: #fffefa;
+}
+
+.careMark {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  border: 1px solid #f1dfb6;
+  border-radius: 50%;
+  background: #fff4d7;
+  color: #ad8540;
+  font-size: 15px;
+}
+
+.carePanel h2 {
+  margin-bottom: 13px;
+}
+
+.carePanel blockquote {
+  margin: 0;
+  padding: 0 0 0 13px;
+  border-left: 2px solid #d99a69;
+}
+
+.carePanel blockquote p {
+  margin: 0 0 9px;
+  color: #435e4c;
+  font-size: 13px;
+  font-weight: 550;
+  line-height: 1.55;
+}
+
+.carePanel cite {
+  color: #879286;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.careFooter {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f0eee6;
+  color: #879186;
+  font-size: 9px;
+}
+
+.carePulse {
+  width: 6px;
+  height: 6px;
+  background: #7ca384;
+}
+
+.motivation {
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #819086;
+}
+
+.motivation p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 550;
+}
+
+.motivation span {
+  color: #d1aa60;
+  font-size: 10px;
+}
+
+.brand:focus-visible,
+.navLink:focus-visible,
+.logoutLink:focus-visible,
+.missionButton:focus-visible {
+  outline: 3px solid rgb(221 139 104 / 62%);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+  .topbarInner,
+  .main {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+
+  .topbarInner {
+    gap: 16px;
+  }
+
+  .primaryNav {
+    gap: 18px;
+  }
+
+  .featureGrid,
+  .lowerGrid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .missionCard {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .missionContent {
+    width: 82%;
+  }
+
+  .missionLandscape {
+    width: 40%;
+    opacity: 0.58;
+  }
+
+  .missionCard h2 {
+    font-size: 20px;
+  }
+
+  .panel {
+    padding-right: 17px;
+    padding-left: 17px;
+  }
+
+  .exerciseGrid {
+    gap: 6px;
+  }
+
+  .exerciseCard {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 7px;
+    padding-inline: 7px;
+  }
+
+  .movementIcon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 850px) {
+  .topbarInner {
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+  }
+
+  .brandName {
+    font-size: 18px;
+  }
+
+  .primaryNav {
+    justify-content: center;
+    gap: 13px;
+  }
+
+  .navLink {
+    font-size: 11px;
+  }
+
+  .main {
+    padding-top: 22px;
+  }
+
+  .welcome h1 {
+    font-size: 24px;
+  }
+
+  .welcomeBadge {
+    min-width: 220px;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .progressMetrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .progressDetails {
+    grid-template-columns: 1fr;
+  }
+
+  .featureGrid,
+  .lowerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .journeyAvatarGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .missionCard {
+    min-height: 270px;
+  }
+
+  .missionContent {
+    width: min(74%, 600px);
+  }
+
+  .missionLandscape {
+    width: 43%;
+    opacity: 0.8;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+
+  .exerciseGrid {
+    gap: 9px;
+  }
+
+  .exerciseCard {
+    grid-template-columns: 38px minmax(0, 1fr);
+    padding: 12px 10px;
+  }
+
+  .movementIcon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbarInner {
+    display: flex;
+    min-height: 0;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 14px 10px;
+    padding: 14px 18px 0;
+  }
+
+  .brand {
+    margin: 1px 0 0 2px;
+  }
+
+  .logoutLink {
+    min-height: 34px;
+    padding-inline: 10px;
+  }
+
+  .primaryNav {
+    order: 3;
+    width: 100%;
+    height: 42px;
+    flex: 0 0 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .navLink {
+    font-size: 11px;
+  }
+
+  .main {
+    padding: 21px 18px 16px;
+  }
+
+  .welcome {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 18px;
+  }
+
+  .welcome h1 {
+    font-size: 23px;
+  }
+
+  .welcome h2 {
+    font-size: 14px;
+  }
+
+  .welcomeBadge {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 12px;
+  }
+
+  .statsGrid {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .progressSection {
+    gap: 9px;
+    margin-bottom: 10px;
+  }
+
+  .progressSectionHeading h2 {
+    font-size: 20px;
+  }
+
+  .overallProgress {
+    min-height: 70px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 11px 12px;
+  }
+
+  .overallProgressValue strong {
+    font-size: 19px;
+  }
+
+  .progressMetrics {
+    gap: 8px;
+  }
+
+  .progressMetric {
+    min-height: 68px;
+    padding: 10px;
+  }
+
+  .progressMetric p {
+    font-size: 10px;
+  }
+
+  .progressMetric strong {
+    font-size: 16px;
+  }
+
+  .progressDetails .panel {
+    padding: 18px 16px;
+  }
+
+  .progressDetails .sectionHeading h3 {
+    font-size: 19px;
+  }
+
+  .progressMilestones {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    margin-top: 12px;
+  }
+
+  .progressMilestone {
+    min-height: 54px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    text-align: left;
+  }
+
+  .progressMilestoneNode {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+  }
+
+  .progressMilestone:not(:last-child)::after {
+    top: 28px;
+    left: 13px;
+    width: 2px;
+    height: 40px;
+  }
+
+  .progressActivity li {
+    min-height: 56px;
+    font-size: 14px;
+  }
+
+  .statCard {
+    min-height: 96px;
+    gap: 8px;
+    padding: 11px 9px;
+  }
+
+  .statLabel {
+    font-size: 8px;
+  }
+
+  .statValue {
+    font-size: 16px;
+  }
+
+  .statNote {
+    font-size: 9px;
+  }
+
+  .featureGrid,
+  .lowerGrid {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .missionCard {
+    min-height: 290px;
+    padding: 20px 17px;
+  }
+
+  .missionContent {
+    width: 100%;
+  }
+
+  .missionLandscape {
+    right: -60px;
+    width: 70%;
+    opacity: 0.25;
+  }
+
+  .missionTopline {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .missionCard h2 {
+    max-width: 320px;
+    font-size: 20px;
+  }
+
+  .missionDescription {
+    max-width: 330px;
+    margin-block: 8px 12px;
+    font-size: 11px;
+  }
+
+  .missionMeta {
+    gap: 8px 12px;
+    margin-bottom: 14px;
+  }
+
+  .missionButton {
+    min-height: 44px;
+  }
+
+  .panel {
+    padding: 17px 14px;
+  }
+
+  .sectionHeading h2,
+  .carePanel h2 {
+    font-size: 16px;
+  }
+
+  .chapterLabel,
+  .exerciseCount {
+    padding: 5px 6px;
+    font-size: 8px;
+  }
+
+  .journeySummary {
+    font-size: 10px;
+  }
+
+  .milestoneList {
+    margin-block: 23px 17px;
+  }
+
+  .milestoneNode {
+    width: 25px;
+    height: 25px;
+  }
+
+  .milestone:not(:last-child)::after {
+    top: 12px;
+    left: calc(50% + 12px);
+    width: calc(100% - 24px);
+  }
+
+  .milestone[data-state="current"] .milestoneNode {
+    width: 32px;
+    height: 32px;
+    margin-block: -4px;
+  }
+
+  .milestoneDay {
+    font-size: 8px;
+  }
+
+  .milestoneLabel {
+    font-size: 7px;
+  }
+
+  .exerciseGrid {
+    grid-template-columns: 1fr;
+    gap: 7px;
+    margin-top: 12px;
+  }
+
+  .exerciseCard {
+    min-height: 76px;
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 9px 10px;
+  }
+
+  .exerciseReward {
+    display: block;
+    color: #687e68;
+    font-size: 10px;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  .exerciseCopy h3 {
+    font-size: 12px;
+  }
+
+  .carePanel {
+    padding: 19px 17px 15px;
+  }
+
+  .motivation {
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 360px) {
+  .topbarInner {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .primaryNav {
+    gap: 5px;
+  }
+
+  .navLink {
+    font-size: 10px;
+  }
+
+  .main {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .statCard {
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .statValue {
+    font-size: 15px;
+  }
+
+  .milestoneDay {
+    font-size: 7px;
+  }
+
+  .milestoneLabel {
+    font-size: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard *,
+  .dashboard *::before,
+  .dashboard *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
