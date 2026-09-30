@@ -393,17 +393,32 @@ class BroadcastServer:
         self.error = None
         self.ready = threading.Event()
         self._stop = None
+        self.camera_active = False
         self._thread = threading.Thread(target=self._run, daemon=True)
 
     async def _handler(self, ws):
         self.clients.add(ws)
         try:
-            async for _ in ws:      # ignore anything clients send; just keep connection open
-                pass
+            async for message in ws:
+                try:
+                    import json
+                    data = json.loads(message)
+                    if data.get("action") == "start_camera":
+                        self.camera_active = True
+                        print("Frontend requested Camera START")
+                    elif data.get("action") == "stop_camera":
+                        self.camera_active = False
+                        print("Frontend requested Camera STOP")
+                except Exception:
+                    pass
         except Exception:
             pass
         finally:
             self.clients.discard(ws)
+            print(f"Client disconnected. {len(self.clients)} remaining.")
+            if len(self.clients) == 0:
+                self.camera_active = False
+                print("All clients disconnected, shutting down camera.")
 
     async def _broadcast(self, message):
         clients = list(self.clients)
@@ -713,12 +728,7 @@ def main():
     print(f"websocket on {HOST}:{PORT}")
     print(f"listening for: {', '.join(allowed)}")
 
-    cap = cv2.VideoCapture(CAMERA_INDEX)
-    if not cap.isOpened():
-        server.stop()
-        sys.exit("Could not open webcam. Close other apps using it or change CAMERA_INDEX.")
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
+    cap = None
 
     from mediapipe.tasks import python
     from mediapipe.tasks.python import vision
@@ -737,10 +747,26 @@ def main():
 
     try:
         while True:
+            if server.camera_active and cap is None:
+                cap = cv2.VideoCapture(CAMERA_INDEX)
+                cap.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH)
+                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
+                # Open window explicitly so it exists before imshow
+                cv2.namedWindow(window)
+            elif not server.camera_active and cap is not None:
+                cap.release()
+                cap = None
+                cv2.destroyAllWindows()
+            
+            if cap is None:
+                time.sleep(0.1)
+                continue
+
             ok, frame = cap.read()
             if not ok:
-                print("Camera read failed, stopping.")
-                break
+                print("Camera read failed temporarily.")
+                time.sleep(0.1)
+                continue
             if MIRROR_VIEW:
                 frame = cv2.flip(frame, 1)
             h, w = frame.shape[:2]
@@ -792,7 +818,8 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        cap.release()
+        if cap is not None:
+            cap.release()
         cv2.destroyAllWindows()
         server.stop()
         print("bye")

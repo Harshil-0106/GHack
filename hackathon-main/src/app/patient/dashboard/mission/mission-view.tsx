@@ -83,7 +83,10 @@ export default function MissionView() {
         wsRef.current = ws;
 
         ws.onopen = () => {
-          if (!cancelled) setCameraStatus("ready");
+          if (!cancelled) {
+            ws.send(JSON.stringify({ action: "start_camera" }));
+            setCameraStatus("ready");
+          }
         };
 
         ws.onmessage = (event) => {
