@@ -4,7 +4,7 @@ echo      Starting Rehab WebApp (Next.js Stack)
 echo ==============================================
 
 echo [1/3] Starting Next.js Frontend Server (Port 3000)...
-start "RehabFrontend" cmd /k "cd hackathon-main && npm run dev"
+start "RehabFrontend" cmd /k "cd RehabApp\frontend && npm run dev"
 
 echo [2/3] Starting MediaPipe Backend (Port 8765)...
 start "RehabBackend" cmd /k "cd RehabApp\backend && py main.py"

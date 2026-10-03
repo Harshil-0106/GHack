@@ -26,7 +26,7 @@ export default function PatientLayout({
                     __html: `window.VIORA_OPTIONS = { tag: 'Rehab Buddy', side: 'right' };`,
                 }}
             />
-            <Script type="module" src="/viora-widget/viora.js" />
+    <Script type="module" src="/mascot/viora.js" />
         </>
     );
 }

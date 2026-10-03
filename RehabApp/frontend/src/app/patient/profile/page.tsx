@@ -24,10 +24,10 @@ export default function PatientProfilePage() {
 
     async function initPhaser() {
       try {
-        await loadScript("/js/core-state.js");
-        await loadScript("/js/phaser.min.js");
+        await loadScript("/virtual-room/core-state.js");
+        await loadScript("/virtual-room/phaser.min.js");
         // Only load the game script once Phaser is ready
-        await loadScript("/js/virtual-room.js");
+        await loadScript("/virtual-room/virtual-room.js");
       } catch (e) {
         console.error("Failed to load Phaser prerequisites", e);
       }
