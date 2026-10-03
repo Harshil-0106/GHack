@@ -1,164 +1,200 @@
-/**
- * virtual-room.js
- * A minimal Phaser 3 2D environment allowing the user to walk around
- * a single room and purchase furniture using their global token wallet.
- */
+/* Idle RPG Game for Rehab Platform */
 
-class RoomScene extends Phaser.Scene {
+class IdleRPG extends Phaser.Scene {
     constructor() {
-        super({ key: 'RoomScene' });
-    }
-
-    createEmojiTexture(key, emoji, size) {
-        const canvas = document.createElement('canvas');
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext('2d');
-        ctx.font = `${size * 0.8}px sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(emoji, size / 2, size / 2 + size * 0.05);
-        this.textures.addCanvas(key, canvas);
+        super({ key: 'IdleRPG' });
     }
 
     preload() {
-        this.createEmojiTexture('player', '🏃', 32);
-        this.createEmojiTexture('wall', '🧱', 64);
-        this.createEmojiTexture('desk', '💻', 64);
-        this.createEmojiTexture('bed', '🛏️', 64);
+        // Generate basic placeholder textures for Hero and Monster
+        let g1 = this.make.graphics({ x: 0, y: 0, add: false });
+        g1.fillStyle(0x3b82f6, 1);
+        g1.fillCircle(32, 32, 32);
+        g1.fillStyle(0x1e3a8a, 1);
+        g1.fillRect(40, 20, 40, 10); // sword
+        g1.generateTexture('hero', 80, 64);
 
-        const g = this.add.graphics();
-        g.fillStyle(0x0f172a, 1);
-        g.fillRect(0, 0, 64, 64);
-        g.lineStyle(1, 0x1e293b, 1);
-        g.strokeRect(0, 0, 64, 64);
-        g.generateTexture('floor', 64, 64);
-        g.clear();
-
-        g.lineStyle(2, 0xeab308, 1);
-        g.strokeRect(0, 0, 64, 64);
-        g.generateTexture('buy-zone', 64, 64);
-        g.destroy();
+        let g2 = this.make.graphics({ x: 0, y: 0, add: false });
+        g2.fillStyle(0xef4444, 1);
+        g2.fillTriangle(32, 0, 64, 64, 0, 64);
+        g2.generateTexture('monster', 64, 64);
     }
 
     create() {
-        this.add.tileSprite(400, 200, 800, 400, 'floor');
+        this.cameras.main.setBackgroundColor('#1c1917');
 
-        const walls = this.physics.add.staticGroup();
-        for (let x = 32; x < 800; x += 64) {
-            walls.create(x, 32, 'wall');
-            walls.create(x, 400 - 32, 'wall');
-        }
-        for (let y = 32; y < 400; y += 64) {
-            if (y !== 32 && y !== (400 - 32)) {
-                walls.create(32, y, 'wall');
-                walls.create(800 - 32, y, 'wall');
-            }
-        }
+        // Core game stats
+        this.heroStats = {
+            maxHp: 100,
+            hp: 100,
+            attack: 10
+        };
 
-        this.items = [
-            { id: 'desk', cost: 150, x: 200, y: 120, bought: false },
-            { id: 'bed', cost: 300, x: 600, y: 120, bought: false }
-        ];
+        this.monsterLevel = 1;
+        this.monsterStats = {
+            maxHp: 50,
+            hp: 50,
+            attack: 5
+        };
 
-        this.zones = this.physics.add.staticGroup();
-        this.furnitureSprites = [];
+        // UI Setup
+        this.add.text(400, 30, 'Idle Rehab Hero RPG', { fontSize: '28px', color: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
 
-        this.items.forEach(item => {
-            const zone = this.zones.create(item.x, item.y, 'buy-zone');
-            zone.itemData = item;
+        // Hero Setup
+        this.hero = this.add.sprite(200, 200, 'hero');
+        this.heroHpBarBg = this.add.rectangle(200, 130, 100, 15, 0x555555);
+        this.heroHpBarFill = this.add.rectangle(200, 130, 100, 15, 0x22c55e);
+        this.heroHpText = this.add.text(200, 130, '100/100', { fontSize: '12px', color: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+        this.add.text(200, 100, 'YOUR HERO', { fontSize: '18px', color: '#3b82f6', fontStyle: 'bold' }).setOrigin(0.5);
+        this.heroAtkText = this.add.text(200, 250, `ATK: 10`, { fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
 
-            const label = this.add.text(item.x, item.y - 45, `${item.id.toUpperCase()}\n${item.cost}🪙`, {
-                fontSize: '14px', fill: '#000', align: 'center', fontStyle: 'bold'
-            }).setOrigin(0.5);
-            zone.label = label;
+        // Monster Setup
+        this.monster = this.add.sprite(600, 200, 'monster');
+        this.monsterHpBarBg = this.add.rectangle(600, 130, 100, 15, 0x555555);
+        this.monsterHpBarFill = this.add.rectangle(600, 130, 100, 15, 0xef4444);
+        this.monsterHpText = this.add.text(600, 130, '50/50', { fontSize: '12px', color: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+        this.monsterLevelText = this.add.text(600, 100, `Slime (Lv 1)`, { fontSize: '18px', color: '#ef4444', fontStyle: 'bold' }).setOrigin(0.5);
+        this.monsterAtkText = this.add.text(600, 250, `ATK: 5`, { fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
+
+        // Shop UI
+        let shopBg = this.add.rectangle(400, 350, 800, 100, 0x292524);
+        this.add.text(400, 320, '-- TOKEN SHOP --', { fontSize: '14px', color: '#f59e0b' }).setOrigin(0.5);
+
+        this.upgradeAtkBtn = this.add.rectangle(250, 360, 220, 40, 0x3b82f6).setInteractive({ useHandCursor: true });
+        this.add.text(250, 360, 'Upgrade Sword (20 Tokens)', { fontSize: '14px', color: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+
+        this.upgradeHpBtn = this.add.rectangle(550, 360, 220, 40, 0x10b981).setInteractive({ useHandCursor: true });
+        this.add.text(550, 360, 'Upgrade Max HP (20 Tokens)', { fontSize: '14px', color: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+
+        // Interactions
+        this.upgradeAtkBtn.on('pointerdown', () => this.buyUpgrade('attack'));
+        this.upgradeHpBtn.on('pointerdown', () => this.buyUpgrade('hp'));
+
+        // Tokens Display
+        this.tokenDisplay = this.add.text(400, 80, 'Tokens: 0', { fontSize: '24px', color: '#fbbf24', fontStyle: 'bold' }).setOrigin(0.5);
+
+        // Battle Timer
+        this.battleEvent = this.time.addEvent({
+            delay: 1500,
+            callback: this.combatTick,
+            callbackScope: this,
+            loop: true
         });
-
-        this.player = this.physics.add.sprite(400, 200, 'player');
-        this.player.setCollideWorldBounds(true);
-
-        this.physics.add.collider(this.player, walls);
-        this.physics.add.collider(this.player, this.zones);
-
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-        this.gameTokens = window.coreState ? window.coreState.getState().tokens : 0;
-        window.addEventListener('stateChanged', (e) => {
-            this.gameTokens = e.detail.tokens;
-        });
-
-        this.promptText = this.add.text(400, 360, "", {
-            fontSize: '18px', fill: '#000', backgroundColor: '#fff', padding: 8
-        }).setOrigin(0.5).setVisible(false);
     }
 
     update() {
-        const speed = 160;
-        this.player.setVelocity(0);
-
-        if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-speed);
-        } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(speed);
+        // Sync tokens continuously from state manager
+        if (window.coreState) {
+            this.tokenDisplay.setText(`Tokens: ${window.coreState.getState().tokens}`);
         }
-
-        if (this.cursors.up.isDown) {
-            this.player.setVelocityY(-speed);
-        } else if (this.cursors.down.isDown) {
-            this.player.setVelocityY(speed);
-        }
-
-        this.handleInteractions();
     }
 
-    handleInteractions() {
-        this.promptText.setVisible(false);
-        let standingNear = null;
+    buyUpgrade(type) {
+        if (!window.coreState) return;
+        let tokens = window.coreState.getState().tokens;
 
-        this.zones.getChildren().forEach(zone => {
-            const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, zone.x, zone.y);
-            if (dist < 80 && !zone.itemData.bought) {
-                standingNear = zone;
+        if (tokens >= 20) {
+            window.coreState.updateUserTokens(-20); // deduct tokens via universal logic
+
+            if (type === 'attack') {
+                this.heroStats.attack += 5;
+                this.heroAtkText.setText(`ATK: ${this.heroStats.attack}`);
+                if (window.Viora) window.Viora.say("Sword upgraded! Slay those monsters.");
+            } else if (type === 'hp') {
+                this.heroStats.maxHp += 20;
+                this.heroStats.hp = this.heroStats.maxHp;
+                if (window.Viora) window.Viora.say("Max health increased! You're getting tougher.");
+            }
+            this.updateHpBars();
+
+            // Floating animation for purchase
+            let valText = this.add.text(400, 350, '-20 Tokens', { fontSize: '20px', color: '#ef4444', fontStyle: 'bold' }).setOrigin(0.5);
+            this.tweens.add({
+                targets: valText, y: 300, alpha: 0, duration: 1000,
+                onComplete: () => valText.destroy()
+            });
+
+        } else {
+            if (window.Viora) window.Viora.say("You don't have enough tokens! Complete more reps!");
+        }
+    }
+
+    combatTick() {
+        if (this.monsterStats.hp <= 0 || this.heroStats.hp <= 0) return;
+
+        this.monsterStats.hp -= this.heroStats.attack;
+
+        this.tweens.add({
+            targets: this.hero, x: 250, duration: 100, yoyo: true,
+            onComplete: () => {
+                if (this.monsterStats.hp > 0) {
+                    this.heroStats.hp -= this.monsterStats.attack;
+                    this.tweens.add({
+                        targets: this.monster, x: 550, duration: 100, yoyo: true,
+                        onComplete: () => {
+                            this.updateHpBars();
+                            this.checkCombatStatus();
+                        }
+                    });
+                } else {
+                    this.updateHpBars();
+                    this.checkCombatStatus();
+                }
             }
         });
-
-        if (standingNear) {
-            if (this.gameTokens >= standingNear.itemData.cost) {
-                this.promptText.setText(`Press SPACE to buy ${standingNear.itemData.id} (Cost: ${standingNear.itemData.cost}🪙)`);
-                this.promptText.setVisible(true);
-
-                if (Phaser.Input.Keyboard.JustDown(this.spaceBar)) {
-                    this.buyItem(standingNear);
-                }
-            } else {
-                this.promptText.setText(`Not enough tokens for ${standingNear.itemData.id} (${standingNear.itemData.cost}🪙)`);
-                this.promptText.setVisible(true);
-            }
-        }
     }
 
-    buyItem(zone) {
-        if (window.coreState && window.coreState.getState().tokens >= zone.itemData.cost) {
-            window.coreState.updateUserTokens(-zone.itemData.cost);
-            zone.itemData.bought = true;
+    checkCombatStatus() {
+        if (this.monsterStats.hp <= 0) {
+            this.monsterLevel++;
+            this.monsterStats.maxHp = 50 + (this.monsterLevel * 20);
+            this.monsterStats.hp = this.monsterStats.maxHp;
+            this.monsterStats.attack = 5 + (this.monsterLevel * 3);
 
-            zone.disableBody(true, true);
-            zone.label.setVisible(false);
+            this.monsterLevelText.setText(`Monster (Lv ${this.monsterLevel})`);
+            this.monsterAtkText.setText(`ATK: ${this.monsterStats.attack}`);
 
-            const furn = this.physics.add.staticSprite(zone.itemData.x, zone.itemData.y, 'desk');
-            if (zone.itemData.id === 'bed') {
-                furn.setTexture('bed');
+            this.heroStats.hp = Math.min(this.heroStats.maxHp, this.heroStats.hp + 10);
+
+            let rewardText = this.add.text(600, 150, 'Defeated!', { fontSize: '20px', color: '#fbbf24', fontStyle: 'bold' }).setOrigin(0.5);
+            this.tweens.add({
+                targets: rewardText, y: 100, alpha: 0, duration: 1500,
+                onComplete: () => rewardText.destroy()
+            });
+
+            if (window.Viora && this.monsterLevel % 5 === 0) {
+                window.Viora.say(`Wow, level ${this.monsterLevel} reached! Excellent progress.`);
             }
-            this.physics.add.collider(this.player, furn);
 
-            this.promptText.setText("Purchased!");
+        } else if (this.heroStats.hp <= 0) {
+            this.heroStats.hp = this.heroStats.maxHp;
+            this.monsterLevel = Math.max(1, this.monsterLevel - 2);
+            this.monsterStats.maxHp = 50 + (this.monsterLevel * 20);
+            this.monsterStats.hp = this.monsterStats.maxHp;
+            this.monsterStats.attack = 5 + (this.monsterLevel * 3);
 
-            // Hook up to Viora widget if loaded!
-            if (window.Viora && window.Viora.say) {
-                window.Viora.say(`Awesome! You just bought the ${zone.itemData.id}!`);
-            }
+            this.monsterLevelText.setText(`Monster (Lv ${this.monsterLevel})`);
+            this.monsterAtkText.setText(`ATK: ${this.monsterStats.attack}`);
+
+            let dieText = this.add.text(200, 150, 'Felled...', { fontSize: '20px', color: '#ef4444', fontStyle: 'bold' }).setOrigin(0.5);
+            this.tweens.add({
+                targets: dieText, y: 100, alpha: 0, duration: 2000,
+                onComplete: () => dieText.destroy()
+            });
+
+            if (window.Viora) window.Viora.say("Oh no! The monster got you. Spend some tokens to gear up!");
         }
+        this.updateHpBars();
+    }
+
+    updateHpBars() {
+        let hPct = Math.max(0, this.heroStats.hp / this.heroStats.maxHp);
+        this.heroHpBarFill.width = 100 * hPct;
+        this.heroHpText.setText(`${Math.max(0, this.heroStats.hp)}/${this.heroStats.maxHp}`);
+
+        let mPct = Math.max(0, this.monsterStats.hp / this.monsterStats.maxHp);
+        this.monsterHpBarFill.width = 100 * mPct;
+        this.monsterHpText.setText(`${Math.max(0, this.monsterStats.hp)}/${this.monsterStats.maxHp}`);
     }
 }
 
@@ -167,18 +203,9 @@ const config = {
     width: 800,
     height: 400,
     parent: 'phaser-game',
-    physics: {
-        default: 'arcade',
-        arcade: { debug: false }
-    },
-    scene: RoomScene,
-    backgroundColor: '#0f172a'
+    scene: [IdleRPG]
 };
 
-// Launch Phaser game!
-try {
+if (!window.phaserGame) {
     window.phaserGame = new Phaser.Game(config);
-} catch (e) {
-    document.getElementById('phaser-game').innerText = "Phaser Load Error: " + e.toString();
-    console.error(e);
 }
